@@ -50,9 +50,13 @@ interface ArchetypeCopy {
   readonly weakness?: string
 }
 
+// 结果页传进来的是角色的 id（如 shirai-kuroko），不是展示用的 code（如 KRKO）——
+// 上游 /api/insight 也是用 id 去索引 characterBrief.json。这里两种键都登记，
+// 任一形式都能查到，否则查不到角色会让整张解读卡被隐藏。
 const characterByCode = new Map<string, CharacterRecord>()
 for (const item of charactersData as CharacterRecord[]) {
-  characterByCode.set(item.code.toUpperCase(), item)
+  if (item.id) characterByCode.set(item.id, item)
+  if (item.code) characterByCode.set(item.code.toUpperCase(), item)
 }
 
 // ── 各语言的连接文案 ──
@@ -170,7 +174,8 @@ export async function fetchAiInsight(
   const locale = (lang in COPY ? lang : 'zh-CN') as AppLocale
   const copy = COPY[locale]
 
-  const character = characterByCode.get(String(characterCode).toUpperCase())
+  const rawCode = String(characterCode)
+  const character = characterByCode.get(rawCode) ?? characterByCode.get(rawCode.toUpperCase())
   if (!character) {
     return { text: null, available: false, reason: 'unknown-character' }
   }
