@@ -32,6 +32,12 @@
         <p>{{ t('quiz.noticeC') }}</p>
       </section>
 
+      <div class="random-fill-row">
+        <button type="button" class="random-fill-btn" @click="fillRandomAnswers">
+          {{ t('quiz.randomFill') }}
+        </button>
+      </div>
+
       <p v-if="questions.length === 0" class="quiz-loading">{{ t('quiz.loading') }}</p>
 
       <section v-else class="question-list" aria-label="测试题目">
@@ -197,6 +203,19 @@ const scaleOptions = computed<ScaleOption[]>(() => {
     { value: -3, label: scaleTitles[6], side: 'disagree', sizeClass: 'size-xl' },
   ]
 })
+
+// 随机作答：给每一道题各随机挑一个量表选项，方便快速预览结果页与角色解读
+function fillRandomAnswers() {
+  const options = scaleOptions.value
+  if (options.length === 0 || questions.value.length === 0) return
+  for (let i = 0; i < questions.value.length; i += 1) {
+    const option = options[Math.floor(Math.random() * options.length)]
+    selectOptionAt(i, option.value)
+  }
+  // 已全部作答，清掉「未作答」高亮与恢复提示
+  pendingUnansweredIndex.value = null
+  showResumeNotice.value = false
+}
 
 // 数字键 1-7 快捷答题（16personalities 同款体验）：
 // 映射到「当前题」（第一道未作答的题目）的 7 档刻度，行为与点击按钮完全一致
@@ -667,6 +686,29 @@ async function submitQuiz() {
   border-color: #285f4a;
 }
 
+/* 随机作答：与「查看结果」同款胶囊按钮，居中摆在说明框下方 */
+.random-fill-row {
+  max-width: 880px;
+  margin: 0 auto 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.random-fill-btn {
+  border: 1px solid #2d9168;
+  border-radius: 999px;
+  padding: 11px 26px;
+  color: #ffffff;
+  background: #33a474;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.random-fill-btn:hover {
+  background: #2f7a5c;
+  border-color: #285f4a;
+}
+
 .quiz-footer {
   margin-top: 30px;
   border-top: 1px solid #edf1f5;
@@ -805,6 +847,7 @@ async function submitQuiz() {
 
   .result-form-card,
   .quiz-notice,
+  .random-fill-row,
   .question-list {
     margin-left: 2px;
     margin-right: 2px;
