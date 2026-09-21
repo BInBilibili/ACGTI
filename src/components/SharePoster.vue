@@ -9,6 +9,7 @@ import { ensureReadableOnLight } from '../utils/color'
 import { normalizeCharacterImagePath } from '../utils/characterVisuals'
 import { DEFAULT_ACCENT } from '../utils/themeDefaults'
 import AppIcon from './AppIcon.vue'
+import { SITE_DISPLAY_URL } from '../utils/siteConfig'
 
 const props = defineProps<{
   result: QuizResult
@@ -176,7 +177,7 @@ watch(rootEl, (el) => {
             </div>
             <div class="footer-links">
               <span class="footer-link-item">github.com/tianxingleo/ACGTI</span>
-              <span class="footer-link-item">acgti.tianxingleo.top</span>
+              <span class="footer-link-item">{{ SITE_DISPLAY_URL }}</span>
             </div>
           </div>
         </div>

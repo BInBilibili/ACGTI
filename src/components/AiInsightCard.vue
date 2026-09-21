@@ -1,7 +1,8 @@
 <script setup lang="ts">
-// AI 结果解读卡片：进入结果页自动请求 /api/insight，
-// 首次加载失败（后端未绑定 Workers AI / 额度耗尽等）时整卡隐藏（渐进增强，不占版面）；
-// 重生成失败则保留旧文案，仅在按钮旁给出轻提示。
+// 结果解读卡片（本地生成版）：进入结果页即时生成，无网络请求。
+// 纯静态部署后不再有 /api/insight，文案由 utils/insight.ts 在浏览器内按
+// 「四维倾向 + 命中角色 + 原型文案」规则组合而成。
+// 角色代码未知时整卡隐藏（渐进增强，不占版面）。
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 
 import { useI18n } from '../i18n'
@@ -242,6 +243,8 @@ const accentColor = computed(() => props.accent || DEFAULT_AI_ACCENT)
   line-height: 1.75;
   color: #2f3a45;
   min-height: 3.2em;
+  /* 本地解读按段落换行输出，需要保留换行符 */
+  white-space: pre-wrap;
 }
 
 .ai-caret {

@@ -40,6 +40,12 @@ import { useI18n } from '../i18n'
 import { getLocalizedCharacterName, getLocalizedCharacterSeries } from '../i18n/characters'
 import { resolvePublicAsset } from '../utils/characterVisuals'
 import { useSeo } from '../composables/useSeo'
+import {
+  getArchetypesResponse,
+  getCharactersResponse,
+  getDataSourceMeta,
+  getOverviewResponse,
+} from '../utils/localBackend'
 
 const { t: seoStatsT } = useI18n()
 useSeo({
@@ -72,13 +78,12 @@ const archetypes = ref<RankedItem[]>([])
 const characters = ref<RankedItem[]>([])
 const updatedAt = ref<string | null>(null)
 const loadError = ref<string | null>(null)
+// 数据来源元信息：纯静态部署后统计是「上游快照 + 本机记录」，需要如实告知
+const dataSource = ref<{ source: string; upstreamRepo: string; capturedAt: string; localCount: number } | null>(null)
 
 function getLocaleLoadErrorMessage(): string {
-  // 主文案与通用提示走 i18n 键；开发环境再追加点对点的本地提示，仅本地可见
-  const devHint = import.meta.env.DEV
-    ? '（本地开发请使用 wrangler pages dev 启动，才能访问 /api/stats/*。）'
-    : ''
-  return `${t('stats.loadError')}${t('stats.loadErrorHint')}${devHint}`
+  // 主文案与通用提示走 i18n 键
+  return `${t('stats.loadError')}${t('stats.loadErrorHint')}`
 }
 
 async function retryLoad() {
@@ -93,31 +98,22 @@ async function retryLoad() {
 
 async function loadStats() {
   try {
-    const [overviewRes, archetypesRes, charactersRes] = await Promise.all([
-      fetchStatsJson('/api/stats/overview'),
-      fetchStatsJson('/api/stats/archetypes'),
-      fetchStatsJson('/api/stats/characters'),
-    ])
+    // 纯静态部署：数据来自「上游快照 + 本机 localStorage 记录」，
+    // 不再有 /api/stats/* 请求，因此这里恒为同步成功，
+    // 保留 try/catch 与 loading 状态是为了兼容原有 UI 流程。
+    const overviewRes = getOverviewResponse()
+    const archetypesRes = getArchetypesResponse()
+    const charactersRes = getCharactersResponse()
 
-    if (overviewRes.data) overview.value = overviewRes.data
-    if (archetypesRes.data?.items) archetypes.value = archetypesRes.data.items
-    if (charactersRes.data?.items) characters.value = charactersRes.data.items
+    overview.value = overviewRes.data
+    archetypes.value = archetypesRes.data.items
+    characters.value = charactersRes.data.items
     updatedAt.value = overviewRes.updatedAt ?? archetypesRes.updatedAt ?? charactersRes.updatedAt ?? null
+    dataSource.value = getDataSourceMeta()
   } catch (err) {
     console.error('Failed to load stats:', err)
     loadError.value = getLocaleLoadErrorMessage()
   }
-}
-
-async function fetchStatsJson(url: string) {
-  const response = await fetch(url, {
-    headers: { Accept: 'application/json' },
-  })
-  const contentType = response.headers.get('content-type') ?? ''
-  if (!response.ok || !contentType.includes('application/json')) {
-    throw new Error('stats_api_unavailable')
-  }
-  return response.json()
 }
 
 function getCharacterFromCode(code: string): CharacterDef | null {
@@ -202,6 +198,20 @@ onMounted(async () => {
             ({{ t('stats.startNote') }})
           </small>
         </p>
+
+        <!-- 纯静态部署的数据来源说明：不伪装成全站实时数据 -->
+        <div v-if="dataSource" class="stats-datasource">
+          <p class="stats-datasource-title">{{ t('stats.localMode.title') }}</p>
+          <p class="stats-datasource-detail">
+            {{ t('stats.localMode.detail', { count: dataSource.localCount, source: dataSource.source }) }}
+          </p>
+          <p class="stats-datasource-detail">
+            {{ t('stats.localMode.snapshot', { time: formatTime(dataSource.capturedAt) }) }}
+          </p>
+          <a class="stats-datasource-link" :href="dataSource.upstreamRepo" target="_blank" rel="noopener noreferrer">
+            {{ t('stats.localMode.upstream') }}
+          </a>
+        </div>
       </div>
     </section>
 
@@ -352,6 +362,42 @@ onMounted(async () => {
 .container {
   width: min(1200px, calc(100% - 2rem));
   margin: 0 auto;
+}
+
+/* 数据来源说明（纯静态部署：上游快照 + 本机记录） */
+.stats-datasource {
+  max-width: 640px;
+  margin: 20px auto 0;
+  padding: 14px 16px;
+  border: 1px solid #e3e8ee;
+  border-left: 3px solid #33a474;
+  border-radius: 8px;
+  background: #f7faf9;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #4a5661;
+  text-align: left;
+}
+
+.stats-datasource-title {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: #2f3a45;
+}
+
+.stats-datasource-detail {
+  margin: 0;
+}
+
+.stats-datasource-link {
+  display: inline-block;
+  margin-top: 6px;
+  color: #33a474;
+  text-decoration: none;
+}
+
+.stats-datasource-link:hover {
+  text-decoration: underline;
 }
 
 /* Hero */

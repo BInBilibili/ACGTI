@@ -1,35 +1,17 @@
-// 统计上报工具 — fire-and-forget，绝不阻碍页面加载
+// 统计上报工具 —— 纯静态部署版本。
+//
+// 上游通过 /api/submit、/api/stats/*、/api/feedback 打到 Cloudflare Pages Functions，
+// 这里全部改为浏览器本地（详见 utils/localBackend.ts 的说明）。
+// 对外函数签名保持不变，调用方（ResultPage.vue）无需感知实现变化。
 
-/** 结果页真实统计数据 */
-export interface ResultStats {
-  totalSubmissions: number
-  sameCharacterCount: number
-  sameCharacterPercent: number
-  sameArchetypeCount: number
-  sameArchetypePercent: number
-  characterRank: number | null
-  archetypeRank: number | null
-}
+import {
+  getResultStats,
+  recordFeedback,
+  recordSubmission,
+  type ResultStats,
+} from './localBackend'
 
-/**
- * 获取结果页真实统计数据
- * 静默失败返回 null，不阻碍页面
- */
-export async function fetchResultStats(
-  characterCode: string,
-  archetypeCode: string,
-): Promise<ResultStats | null> {
-  try {
-    const params = new URLSearchParams({ character: characterCode, archetype: archetypeCode })
-    const res = await fetch(`/api/stats/result?${params.toString()}`)
-    if (!res.ok) return null
-    const json = await res.json()
-    return json.data ?? null
-  } catch {
-    return null
-  }
-}
-// 使用 sendBeacon 优先，fallback 到 fetch keepalive
+export type { ResultStats }
 
 // 版本号由 vite define 从 package.json 注入，保证与发版一致
 const APP_VERSION = __APP_VERSION__
@@ -64,27 +46,34 @@ export interface FeedbackPayload {
 }
 
 /**
- * 后台静默上报问卷结果
- * 使用 sendBeacon 或 fetch keepalive，失败完全吞掉
+ * 获取结果页统计数据（基线快照 + 本机记录）
+ * 保持 Promise 形态，调用方原有的 .then() 写法不受影响
+ */
+export async function fetchResultStats(
+  characterCode: string,
+  archetypeCode: string,
+): Promise<ResultStats | null> {
+  try {
+    return getResultStats(characterCode, archetypeCode)
+  } catch {
+    return null
+  }
+}
+
+/**
+ * 记录问卷结果到本机
+ * 纯本地写入，同步完成；异常完全吞掉，绝不阻碍页面
  */
 export function reportResultInBackground(payload: Omit<SubmitPayload, 'appVersion'>) {
-  const body = JSON.stringify({ ...payload, appVersion: APP_VERSION })
-
   try {
-    // sendBeacon 本身就是异步非阻塞的，直接同步调用
-    if (navigator.sendBeacon) {
-      const blob = new Blob([body], { type: 'application/json' })
-      if (navigator.sendBeacon('/api/submit', blob)) return
-    }
-
-    // fallback
-    fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body,
-      keepalive: true,
-    }).catch((err) => {
-      console.error('❌ /api/submit error:', err)
+    recordSubmission({
+      submissionId: payload.submissionId,
+      characterCode: payload.characterCode,
+      archetypeCode: payload.archetypeCode,
+      predictedMbti: payload.predictedMbti,
+      dimensionScores: payload.dimensionScores,
+      durationMs: payload.durationMs,
+      appVersion: APP_VERSION,
     })
   } catch (err) {
     console.error('❌ reportResultInBackground error:', err)
@@ -93,20 +82,17 @@ export function reportResultInBackground(payload: Omit<SubmitPayload, 'appVersio
 
 /**
  * 用户主动提交 MBTI 反馈
- * 返回 true/false 表示成功/失败，用于 UI 提示
+ * 纯静态部署下只写入本机记录，不入任何服务端；返回 true/false 供 UI 提示
  */
 export async function submitFeedback(payload: Omit<FeedbackPayload, 'appVersion'>): Promise<boolean> {
   try {
-    const res = await fetch('/api/feedback', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...payload, appVersion: APP_VERSION }),
+    return recordFeedback({
+      submissionId: payload.submissionId,
+      selfMbti: payload.selfMbti,
+      confidence: payload.confidence,
+      note: payload.note,
+      appVersion: APP_VERSION,
     })
-    const data = await res.json()
-    if (res.status !== 200) {
-      console.error('❌ /api/feedback failed:', res.status, data)
-    }
-    return data.ok === true
   } catch (err) {
     console.error('❌ submitFeedback error:', err)
     return false

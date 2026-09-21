@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api/
 
-Sitemap: https://acgti.tianxingleo.top/sitemap.xml
+Sitemap: https://binbilibili.github.io/ACGTI/sitemap.xml

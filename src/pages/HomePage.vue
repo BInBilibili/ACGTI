@@ -133,6 +133,7 @@ import AppIcon from '../components/AppIcon.vue'
 import { computed } from 'vue'
 import { useI18n } from '../i18n'
 import { useSeo } from '../composables/useSeo'
+import { SITE_URL } from '../utils/siteConfig'
 
 const { t: homeT } = useI18n()
 useSeo({
@@ -144,11 +145,11 @@ useSeo({
     '@type': 'WebSite',
     name: 'ACGTI',
     alternateName: 'ACG Type Indicator',
-    url: 'https://acgti.tianxingleo.top',
+    url: SITE_URL,
     description: '以 MBTI 为基础的二次元角色原型测试',
     potentialAction: {
       '@type': 'TakeAction',
-      target: 'https://acgti.tianxingleo.top/quiz',
+      target: `${SITE_URL}/quiz`,
       name: '开始测试',
     },
   },

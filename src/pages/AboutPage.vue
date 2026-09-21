@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from '../i18n'
 import { useSeo } from '../composables/useSeo'
 import AppIcon from '../components/AppIcon.vue'
+import { SITE_URL } from '../utils/siteConfig'
 
 const { t, tm } = useI18n()
 
@@ -26,7 +27,7 @@ const faqJsonLd = computed(() => [
     name: 'ACGTI',
     alternateName: 'ACG Type Indicator',
     description: '以 MBTI 为基础的二次元角色原型测试工具，通过情境式问题生成专属角色代码和原型报告。',
-    url: 'https://acgti.tianxingleo.top',
+    url: SITE_URL,
     applicationCategory: 'Entertainment',
     operatingSystem: 'Web',
     offers: {

@@ -1,4 +1,5 @@
 import type { AppLocale } from './types'
+import { SITE_DISPLAY_URL } from '../utils/siteConfig'
 
 // 这两个数字与 src/data/questions.json、characters.json 保持同步，
 // 由 scripts/validate-character-data.mjs 强制校验，避免静态导入把大 JSON 拖进首屏。
@@ -210,12 +211,12 @@ export const messages = {
       traitsTitle: '人格特质倾向',
       traitsDisclaimer: '下面四个维度只反映你本次答题的倾向分布；同样的 MBTI 也可能命中不同角色，还要看各维度的比例。',
       aiInsight: {
-        title: 'AI 解读',
+        title: '角色解读',
         loading: '正在为你生成专属解读…',
         regenerate: '换一种说法',
         regenerating: '生成中…',
         limitReached: '本次结果的重试次数已用完',
-        privacy: 'AI 解读只用你的四维倾向和命中角色生成，不涉及逐题答案。',
+        privacy: '解读由本机根据你的四维倾向和命中角色即时生成：不联网、不上传，也不涉及逐题答案。',
         cachedBadge: '复用之前的解读',
       },
       strongest: '当前最显著维度',
@@ -459,7 +460,7 @@ export const messages = {
       faqTitle: '常见问题',
       faqLead: '玩之前可以先扫一眼：',
       faqItems: [
-        ['从哪里进入测试？', '首页顶部点「开始测试」就行，也可以直接访问 acgti.tianxingleo.top/quiz。'],
+        ['从哪里进入测试？', `首页顶部点「开始测试」就行，也可以直接访问 ${SITE_DISPLAY_URL}/quiz。`],
         ['ACGTI 和 MBTI 是什么关系？', '答题按 MBTI 四维计分，最终换算成一个角色代码；想看字母的话，结果页也保留了维度倾向比例。'],
         ['ACGTI 有排行榜吗？', '有。「全网人格分布」统计页可以看到 8 大原型和角色的命中排行，数据每 15 分钟更新一次。'],
         ['测试结果是随机的吗？', '不是。每道题都对应 MBTI 四个维度（E/I、S/N、T/F、J/P）中的一维，最后按各维度的倾向比例映射到原型和唯一角色。'],
@@ -543,7 +544,13 @@ export const messages = {
     },
     stats: {
     title: '全网人格分布',
-    subtitle: '基于所有匿名测试结果的统计，每 15 分钟更新一次',
+    subtitle: '上游快照基线 + 本机记录，非实时全站数据',
+    localMode: {
+      title: '数据来源说明',
+      detail: '本站是纯静态部署（GitHub Pages），没有服务端。下面的图表 = 上游快照基线 + 你本机记录的 {count} 次测试；所有记录只留在你自己的浏览器里，不会上传到任何服务器。',
+      snapshot: '上游快照时间：{time}',
+      upstream: '查看上游原项目 →',
+    },
     retry: '重试',
     loadError: '统计数据暂时无法加载。',
     loadErrorHint: '请稍后重试。',
@@ -766,12 +773,12 @@ export const messages = {
       traitsTitle: '人格特質傾向',
       traitsDisclaimer: '下面四個維度只反映你本次答題的傾向分佈；同樣的 MBTI 也可能命中不同角色，還要看各維度的比例。',
       aiInsight: {
-        title: 'AI 解讀',
+        title: '角色解讀',
         loading: '正在為你生成專屬解讀…',
         regenerate: '換一種說法',
         regenerating: '生成中…',
         limitReached: '本次結果的重試次數已用完',
-        privacy: 'AI 解讀只用你的四維傾向和命中角色生成，不涉及逐題答案。',
+        privacy: '解讀由本機依據你的四維傾向與命中角色即時生成：不連網、不上傳，也不涉及逐題答案。',
         cachedBadge: '快取命中',
       },
       strongest: '目前最顯著維度',
@@ -1070,7 +1077,7 @@ export const messages = {
       faqTitle: '常見問題',
       faqLead: '幾個常被問到的問題：',
       faqItems: [
-        ['從哪裡進入測試？', '首頁頂部點「開始測試」就行，也可以直接造訪 acgti.tianxingleo.top/quiz。'],
+        ['從哪裡進入測試？', `首頁頂部點「開始測試」就行，也可以直接造訪 ${SITE_DISPLAY_URL}/quiz。`],
         ['ACGTI 和 MBTI 是什麼關係？', '答題按 MBTI 四維計分，但你拿到的不是四個字母，而是一個角色代碼。想看字母的話，結果頁也保留了維度傾向比例。'],
         ['ACGTI 有排行榜嗎？', '有。「全網人格分佈」統計頁可以看到 8 大原型和角色的命中排行，數據每 15 分鐘更新一次。'],
         ['測試結果是隨機的嗎？', '不是。每道題都對應 MBTI 四個維度（E/I、S/N、T/F、J/P）中的一維，最後按各維度的傾向比例映射到原型和唯一角色。'],
@@ -1154,7 +1161,13 @@ export const messages = {
     },
     stats: {
     title: '全網人格分佈',
-    subtitle: '基於所有匿名測試結果的統計，每 15 分鐘更新一次',
+    subtitle: '上游快照基線 + 本機記錄，非即時全站資料',
+    localMode: {
+      title: '資料來源說明',
+      detail: '本站是純靜態部署（GitHub Pages），沒有伺服端。下方圖表 = 上游快照基線 + 你本機記錄的 {count} 次測試；所有記錄只留在你自己的瀏覽器裡，不會上傳到任何伺服器。',
+      snapshot: '上游快照時間：{time}',
+      upstream: '查看上游原專案 →',
+    },
     retry: '重試',
     loadError: '統計資料目前無法載入。',
     loadErrorHint: '請稍後重試。',
@@ -1377,12 +1390,12 @@ export const messages = {
       traitsTitle: 'Trait tendencies',
       traitsDisclaimer: 'The four dimensions below only reflect how your answers leaned this time; the same MBTI can still hit different characters depending on the ratios.',
       aiInsight: {
-        title: 'AI Insight',
+        title: 'Character Reading',
         loading: 'Generating your personalized insight…',
         regenerate: 'Regenerate',
         regenerating: 'Generating…',
         limitReached: 'No retries left for this result',
-        privacy: 'AI insights are generated only from your four dimension tendencies and the matched character — never your individual answers.',
+        privacy: 'This reading is composed locally in your browser from your four dimension tendencies and the matched character. Nothing is sent anywhere, and your individual answers are never used.',
         cachedBadge: 'cached',
       },
       strongest: 'Strongest dimension',
@@ -1651,7 +1664,7 @@ export const messages = {
       faqTitle: 'Frequently asked questions',
       faqLead: 'A few questions that come up a lot:',
       faqItems: [
-        ['Where do I start the test?', 'Click "Take the Quiz" at the top of the home page, or go straight to acgti.tianxingleo.top/quiz.'],
+        ['Where do I start the test?', 'Click "Take the Quiz" at the top of the home page, or go straight to ' + SITE_DISPLAY_URL + '/quiz.'],
         ['How is ACGTI related to MBTI?', 'Your answers are scored on the four MBTI dimensions, but what you get isn\'t four letters — it\'s a character code. If you do want the letters, the result page keeps the dimension ratios too.'],
         ['Does ACGTI have a leaderboard?', 'Yes. The "Global Personality Distribution" stats page shows the hit rankings for the 8 archetypes and characters, updated every 15 minutes.'],
         ['Are the results random?', 'No. Every question maps to one of the four MBTI dimensions (E/I, S/N, T/F, J/P), and the final ratios map you to an archetype and one unique character.'],
@@ -1735,7 +1748,13 @@ export const messages = {
     },
     stats: {
     title: 'Global Personality Distribution',
-    subtitle: 'Stats based on all anonymous test results, updated every 15 minutes',
+    subtitle: 'Upstream snapshot baseline + your local records — not live site-wide data',
+    localMode: {
+      title: 'Where this data comes from',
+      detail: 'This site is a pure static deployment on GitHub Pages with no server. The charts below combine an upstream snapshot baseline with the {count} test(s) recorded in this browser. Every record stays in your own browser and is never uploaded.',
+      snapshot: 'Snapshot captured: {time}',
+      upstream: 'View the upstream project →',
+    },
     retry: 'Retry',
     loadError: 'Stats are temporarily unavailable.',
     loadErrorHint: 'Please try again later.',
@@ -1958,12 +1977,12 @@ export const messages = {
       traitsTitle: '特性の傾向',
       traitsDisclaimer: '以下の 4 軸は、今回の回答における傾向の分布を示すだけです。同じ MBTI でも各軸の割合次第で、命中するキャラは変わることがあります。',
       aiInsight: {
-        title: 'AIによる解説',
+        title: 'キャラクター解説',
         loading: 'あなた専用の解説を生成しています…',
         regenerate: '言い換える',
         regenerating: '生成中…',
         limitReached: 'この結果の再生成回数を使い切りました',
-        privacy: 'AI 解説は、4 軸の傾向と命中キャラの情報だけから生成され、質問ごとの回答は使いません。',
+        privacy: 'この解説は、4 軸の傾向とマッチしたキャラクターからブラウザ内で生成されます。通信も送信も行わず、質問ごとの回答も使いません。',
         cachedBadge: 'キャッシュ',
       },
       strongest: '最も強い軸',
@@ -2232,7 +2251,7 @@ export const messages = {
       faqTitle: 'よくある質問',
       faqLead: 'よく聞かれる質問をいくつかまとめました：',
       faqItems: [
-        ['テストはどこから始める？', 'トップページ上部の「テスト開始」を押すだけです。acgti.tianxingleo.top/quiz に直接アクセスしても構いません。'],
+        ['テストはどこから始める？', `トップページ上部の「テスト開始」を押すだけです。${SITE_DISPLAY_URL}/quiz に直接アクセスしても構いません。`],
         ['ACGTI と MBTI の関係は？', '回答は MBTI の 4 軸で採点しますが、手に入るのは 4 つのアルファベットではなくキャラコードです。アルファベットが見たいときも、結果ページに 4 軸の傾向割合が残っています。'],
         ['ACGTI にランキングはある？', 'あります。「全世界の性格分布」統計ページで、8 大原型とキャラの命中ランキングが見られます。データは 15 分ごとに更新されます。'],
         ['テスト結果はランダム？', '違います。各問は MBTI の 4 軸（E/I、S/N、T/F、J/P）のいずれかに対応しており、最終的に各軸の傾向割合で原型と唯一のキャラへマッピングされます。'],
@@ -2316,7 +2335,13 @@ export const messages = {
     },
     stats: {
     title: '全世界の性格分布',
-    subtitle: 'すべての匿名テスト結果に基づく統計。15 分ごとに更新',
+    subtitle: '上流スナップショット + この端末の記録（リアルタイム集計ではありません）',
+    localMode: {
+      title: 'データの出典',
+      detail: 'このサイトは GitHub Pages による純粋な静的配信で、サーバーはありません。下のグラフは上流のスナップショットと、このブラウザに記録された {count} 件のテストを合成したものです。記録はブラウザ内に留まり、送信されません。',
+      snapshot: 'スナップショット取得日時：{time}',
+      upstream: '上流プロジェクトを見る →',
+    },
     retry: '再試行',
     loadError: '統計データを読み込めません。',
     loadErrorHint: 'しばらくしてからもう一度お試しください。',

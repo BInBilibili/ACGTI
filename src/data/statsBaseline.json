@@ -1,0 +1,650 @@
+{
+  "_comment": "上游 ACGTI 全站聚合统计快照，用作纯静态部署的基线数据。本机提交记录在浏览器本地叠加，不会写回此文件。",
+  "source": "https://acgti.tianxingleo.top",
+  "upstreamRepo": "https://github.com/tianxingleo/ACGTI",
+  "capturedAt": "2026-09-21T14:01:36.553Z",
+  "overview": {
+    "totalSubmissions": 313049,
+    "todaySubmissions": 164,
+    "last24hSubmissions": 432
+  },
+  "archetypes": [
+    {
+      "code": "icebound-observer",
+      "count": 66798,
+      "percent": 21.34
+    },
+    {
+      "code": "chaos-spark",
+      "count": 66288,
+      "percent": 21.17
+    },
+    {
+      "code": "shadow-strategist",
+      "count": 63243,
+      "percent": 20.2
+    },
+    {
+      "code": "gentle-healer",
+      "count": 41999,
+      "percent": 13.42
+    },
+    {
+      "code": "trickster-orbit",
+      "count": 38182,
+      "percent": 12.2
+    },
+    {
+      "code": "oathbound-captain",
+      "count": 14514,
+      "percent": 4.64
+    },
+    {
+      "code": "luminous-lead",
+      "count": 12038,
+      "percent": 3.85
+    },
+    {
+      "code": "moonlit-guardian",
+      "count": 9987,
+      "percent": 3.19
+    }
+  ],
+  "characters": [
+    {
+      "code": "SORA",
+      "count": 19537,
+      "percent": 6.24
+    },
+    {
+      "code": "KALS",
+      "count": 17495,
+      "percent": 5.59
+    },
+    {
+      "code": "OKBR",
+      "count": 11613,
+      "percent": 3.71
+    },
+    {
+      "code": "KURM",
+      "count": 10848,
+      "percent": 3.47
+    },
+    {
+      "code": "FREN",
+      "count": 10041,
+      "percent": 3.21
+    },
+    {
+      "code": "RIKA",
+      "count": 9570,
+      "percent": 3.06
+    },
+    {
+      "code": "NEUR",
+      "count": 8700,
+      "percent": 2.78
+    },
+    {
+      "code": "NENE-K",
+      "count": 7866,
+      "percent": 2.51
+    },
+    {
+      "code": "KAED",
+      "count": 7801,
+      "percent": 2.49
+    },
+    {
+      "code": "ATRI",
+      "count": 7775,
+      "percent": 2.48
+    },
+    {
+      "code": "VRTN",
+      "count": 7680,
+      "percent": 2.45
+    },
+    {
+      "code": "TNAO",
+      "count": 6970,
+      "percent": 2.23
+    },
+    {
+      "code": "AYRE",
+      "count": 6559,
+      "percent": 2.1
+    },
+    {
+      "code": "HARU",
+      "count": 6374,
+      "percent": 2.04
+    },
+    {
+      "code": "HAIB",
+      "count": 5688,
+      "percent": 1.82
+    },
+    {
+      "code": "MAHR",
+      "count": 5438,
+      "percent": 1.74
+    },
+    {
+      "code": "RIKI",
+      "count": 5309,
+      "percent": 1.7
+    },
+    {
+      "code": "DLRS",
+      "count": 5241,
+      "percent": 1.67
+    },
+    {
+      "code": "YKNO",
+      "count": 5215,
+      "percent": 1.67
+    },
+    {
+      "code": "KNAN",
+      "count": 5209,
+      "percent": 1.66
+    },
+    {
+      "code": "HKRM",
+      "count": 4520,
+      "percent": 1.44
+    },
+    {
+      "code": "CIRN",
+      "count": 4405,
+      "percent": 1.41
+    },
+    {
+      "code": "KRSU",
+      "count": 4121,
+      "percent": 1.32
+    },
+    {
+      "code": "HOMU",
+      "count": 4100,
+      "percent": 1.31
+    },
+    {
+      "code": "RINN",
+      "count": 3970,
+      "percent": 1.27
+    },
+    {
+      "code": "MADK",
+      "count": 3861,
+      "percent": 1.23
+    },
+    {
+      "code": "SAKI",
+      "count": 3798,
+      "percent": 1.21
+    },
+    {
+      "code": "RYOO",
+      "count": 3775,
+      "percent": 1.21
+    },
+    {
+      "code": "MNBO",
+      "count": 3714,
+      "percent": 1.19
+    },
+    {
+      "code": "KNTA",
+      "count": 3632,
+      "percent": 1.16
+    },
+    {
+      "code": "ELNA",
+      "count": 3623,
+      "percent": 1.16
+    },
+    {
+      "code": "SHOK",
+      "count": 3609,
+      "percent": 1.15
+    },
+    {
+      "code": "KGYA",
+      "count": 3270,
+      "percent": 1.04
+    },
+    {
+      "code": "HTMK",
+      "count": 3146,
+      "percent": 1
+    },
+    {
+      "code": "MYRI",
+      "count": 3140,
+      "percent": 1
+    },
+    {
+      "code": "ARTO",
+      "count": 3012,
+      "percent": 0.96
+    },
+    {
+      "code": "KMOM",
+      "count": 2992,
+      "percent": 0.96
+    },
+    {
+      "code": "NENE",
+      "count": 2881,
+      "percent": 0.92
+    },
+    {
+      "code": "TAFI",
+      "count": 2852,
+      "percent": 0.91
+    },
+    {
+      "code": "PHRV",
+      "count": 2806,
+      "percent": 0.9
+    },
+    {
+      "code": "LTYI",
+      "count": 2601,
+      "percent": 0.83
+    },
+    {
+      "code": "ZRTW",
+      "count": 2406,
+      "percent": 0.77
+    },
+    {
+      "code": "VLTT",
+      "count": 2359,
+      "percent": 0.75
+    },
+    {
+      "code": "SERN",
+      "count": 2191,
+      "percent": 0.7
+    },
+    {
+      "code": "CHKA",
+      "count": 2166,
+      "percent": 0.69
+    },
+    {
+      "code": "NAGI",
+      "count": 2065,
+      "percent": 0.66
+    },
+    {
+      "code": "DORO",
+      "count": 2035,
+      "percent": 0.65
+    },
+    {
+      "code": "MAIS",
+      "count": 2017,
+      "percent": 0.64
+    },
+    {
+      "code": "EVIL",
+      "count": 1943,
+      "percent": 0.62
+    },
+    {
+      "code": "BAFE",
+      "count": 1892,
+      "percent": 0.6
+    },
+    {
+      "code": "ERUC",
+      "count": 1861,
+      "percent": 0.59
+    },
+    {
+      "code": "B033",
+      "count": 1849,
+      "percent": 0.59
+    },
+    {
+      "code": "KAOR",
+      "count": 1788,
+      "percent": 0.57
+    },
+    {
+      "code": "REZE",
+      "count": 1759,
+      "percent": 0.56
+    },
+    {
+      "code": "TMRS",
+      "count": 1749,
+      "percent": 0.56
+    },
+    {
+      "code": "AMRS",
+      "count": 1600,
+      "percent": 0.51
+    },
+    {
+      "code": "KINO",
+      "count": 1590,
+      "percent": 0.51
+    },
+    {
+      "code": "IQBT",
+      "count": 1584,
+      "percent": 0.51
+    },
+    {
+      "code": "MRTS-X",
+      "count": 1471,
+      "percent": 0.47
+    },
+    {
+      "code": "MRSM",
+      "count": 1442,
+      "percent": 0.46
+    },
+    {
+      "code": "MARN",
+      "count": 1400,
+      "percent": 0.45
+    },
+    {
+      "code": "GGGG-A",
+      "count": 1321,
+      "percent": 0.42
+    },
+    {
+      "code": "YCYO",
+      "count": 1248,
+      "percent": 0.4
+    },
+    {
+      "code": "TIGA",
+      "count": 1231,
+      "percent": 0.39
+    },
+    {
+      "code": "ASKA",
+      "count": 1230,
+      "percent": 0.39
+    },
+    {
+      "code": "NINO",
+      "count": 1168,
+      "percent": 0.37
+    },
+    {
+      "code": "ANON",
+      "count": 1024,
+      "percent": 0.33
+    },
+    {
+      "code": "YUIY",
+      "count": 986,
+      "percent": 0.31
+    },
+    {
+      "code": "ASNA",
+      "count": 983,
+      "percent": 0.31
+    },
+    {
+      "code": "EYJA",
+      "count": 979,
+      "percent": 0.31
+    },
+    {
+      "code": "KNDE",
+      "count": 894,
+      "percent": 0.29
+    },
+    {
+      "code": "REMM",
+      "count": 890,
+      "percent": 0.28
+    },
+    {
+      "code": "BCHI",
+      "count": 878,
+      "percent": 0.28
+    },
+    {
+      "code": "AMYA",
+      "count": 867,
+      "percent": 0.28
+    },
+    {
+      "code": "MEGU",
+      "count": 846,
+      "percent": 0.27
+    },
+    {
+      "code": "AMNE",
+      "count": 838,
+      "percent": 0.27
+    },
+    {
+      "code": "SOYO",
+      "count": 785,
+      "percent": 0.25
+    },
+    {
+      "code": "MRTS",
+      "count": 690,
+      "percent": 0.22
+    },
+    {
+      "code": "EMLA",
+      "count": 685,
+      "percent": 0.22
+    },
+    {
+      "code": "MEGR",
+      "count": 679,
+      "percent": 0.22
+    },
+    {
+      "code": "SUBA",
+      "count": 665,
+      "percent": 0.21
+    },
+    {
+      "code": "SHKP",
+      "count": 646,
+      "percent": 0.21
+    },
+    {
+      "code": "YSHN",
+      "count": 590,
+      "percent": 0.19
+    },
+    {
+      "code": "PHEB",
+      "count": 581,
+      "percent": 0.19
+    },
+    {
+      "code": "QHUA",
+      "count": 543,
+      "percent": 0.17
+    },
+    {
+      "code": "SZHA",
+      "count": 537,
+      "percent": 0.17
+    },
+    {
+      "code": "MIOA",
+      "count": 529,
+      "percent": 0.17
+    },
+    {
+      "code": "SAKR",
+      "count": 510,
+      "percent": 0.16
+    },
+    {
+      "code": "CKGY",
+      "count": 468,
+      "percent": 0.15
+    },
+    {
+      "code": "KANA",
+      "count": 443,
+      "percent": 0.14
+    },
+    {
+      "code": "ANNA",
+      "count": 443,
+      "percent": 0.14
+    },
+    {
+      "code": "ALYA",
+      "count": 440,
+      "percent": 0.14
+    },
+    {
+      "code": "TMYO",
+      "count": 438,
+      "percent": 0.14
+    },
+    {
+      "code": "KITA",
+      "count": 399,
+      "percent": 0.13
+    },
+    {
+      "code": "CTHY",
+      "count": 396,
+      "percent": 0.13
+    },
+    {
+      "code": "AZUS",
+      "count": 391,
+      "percent": 0.12
+    },
+    {
+      "code": "LXHE",
+      "count": 373,
+      "percent": 0.12
+    },
+    {
+      "code": "FIRE",
+      "count": 328,
+      "percent": 0.1
+    },
+    {
+      "code": "YUIH",
+      "count": 323,
+      "percent": 0.1
+    },
+    {
+      "code": "NIKA",
+      "count": 309,
+      "percent": 0.1
+    },
+    {
+      "code": "KRKO",
+      "count": 309,
+      "percent": 0.1
+    },
+    {
+      "code": "CHIS",
+      "count": 305,
+      "percent": 0.1
+    },
+    {
+      "code": "MIKT",
+      "count": 279,
+      "percent": 0.09
+    },
+    {
+      "code": "TEIO",
+      "count": 274,
+      "percent": 0.09
+    },
+    {
+      "code": "TAMA",
+      "count": 261,
+      "percent": 0.08
+    },
+    {
+      "code": "KAJU",
+      "count": 259,
+      "percent": 0.08
+    },
+    {
+      "code": "FRNA",
+      "count": 241,
+      "percent": 0.08
+    },
+    {
+      "code": "DINA",
+      "count": 235,
+      "percent": 0.08
+    },
+    {
+      "code": "YORF",
+      "count": 227,
+      "percent": 0.07
+    },
+    {
+      "code": "JRAN",
+      "count": 205,
+      "percent": 0.07
+    },
+    {
+      "code": "B022",
+      "count": 201,
+      "percent": 0.06
+    },
+    {
+      "code": "ELYS",
+      "count": 199,
+      "percent": 0.06
+    },
+    {
+      "code": "MYRT",
+      "count": 156,
+      "percent": 0.05
+    },
+    {
+      "code": "SANA",
+      "count": 152,
+      "percent": 0.05
+    },
+    {
+      "code": "HSMK",
+      "count": 134,
+      "percent": 0.04
+    },
+    {
+      "code": "RUBY",
+      "count": 86,
+      "percent": 0.03
+    },
+    {
+      "code": "UNKN",
+      "count": 26,
+      "percent": 0.01
+    },
+    {
+      "code": "FNNA",
+      "count": 1,
+      "percent": 0
+    },
+    {
+      "code": "KIYO",
+      "count": 1,
+      "percent": 0
+    }
+  ]
+}

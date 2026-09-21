@@ -5,10 +5,9 @@ import { getLocale, t } from '../i18n'
 import { getLocalizedCharacterName, getLocalizedCharacterSeries } from '../i18n/characters'
 import { getCharacterRarityMeta } from '../utils/characterRarity'
 import { formatCharacterProbability } from '../utils/characterProbability'
+import { SITE_URL } from '../utils/siteConfig'
 
 let htmlToImageLoader: Promise<typeof import('html-to-image')> | null = null
-
-const SITE_URL = 'https://acgti.tianxingleo.top'
 
 function createShareText(result: QuizResult) {
   const featured = result.characterMatches[0]

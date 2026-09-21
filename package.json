@@ -9,6 +9,8 @@
     "validate:data": "node scripts/validate-character-data.mjs",
     "generate:data": "node scripts/build-character-data.mjs",
     "build": "node scripts/validate-character-data.mjs && node scripts/build-character-data.mjs && vue-tsc -b && vite build",
+    "build:pages": "npm run build && npm run pages:finalize",
+    "pages:finalize": "node scripts/postbuild-pages.mjs",
     "preview": "vite preview",
     "build:watch": "vite build --watch",
     "dev:pages": "node scripts/dev-pages.mjs",

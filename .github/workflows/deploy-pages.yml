@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+# 本仓库是 tianxingleo/ACGTI 的 GitHub Pages 静态化分支。
+# 上游运行时依赖 Cloudflare Pages Functions + D1 + Workers AI，无法在 GitHub 上运行，
+# 因此这里只构建纯静态产物：原 /api/* 调用已改为浏览器本地实现
+# （见 src/utils/localBackend.ts 与 src/utils/insight.ts）。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# GitHub Pages 官方部署所需的最小权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时刻只跑一个 Pages 部署，新推送取消排队中的旧任务
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # build:pages = 原有 validate/generate/vue-tsc/vite build + dist/404.html + .nojekyll
+      - name: Build for GitHub Pages
+        run: npm run build:pages
+        env:
+          # 站点部署在 https://<user>.github.io/ACGTI/ 子路径下，base 必须是 /ACGTI/
+          VITE_BASE: /ACGTI/
+          VITE_SITE_URL: https://binbilibili.github.io/ACGTI
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

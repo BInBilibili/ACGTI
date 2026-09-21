@@ -4,7 +4,10 @@ declare global {
   }
 }
 
-const ADSENSE_CLIENT = String(import.meta.env.VITE_ADSENSE_CLIENT ?? 'ca-pub-1224030144383381').trim()
+// 不设默认值：上游把原作者自己的 AdSense 账号写成兜底值，
+// 直接沿用会把流量与收益算到无关账号上，也不符合 AdSense 的站点归属要求。
+// 未配置 VITE_ADSENSE_CLIENT 时，全站广告位自动不渲染。
+const ADSENSE_CLIENT = String(import.meta.env.VITE_ADSENSE_CLIENT ?? '').trim()
 const ADSENSE_SCRIPT_ID = 'acgti-adsense-script'
 
 export function getAdsenseClient() {

@@ -5,7 +5,8 @@
 </p>
 
 <p align="center">
-  <a href="https://acgti.tianxingleo.top/">🌐 acgti.tianxingleo.top — ACGTI 官网</a>
+  <a href="https://binbilibili.github.io/ACGTI/">🌐 binbilibili.github.io/ACGTI — 本站线上地址</a><br />
+  <a href="https://acgti.tianxingleo.top/">原项目：acgti.tianxingleo.top</a>
 </p>
 
 <p align="center">
@@ -19,10 +20,21 @@
 
 <p align="center">
   <a href="https://github.com/tianxingleo/ACGTI/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/tianxingleo/ACGTI/ci.yml?branch=dev&style=flat-square&label=CI" alt="CI" /></a>
-  <a href="https://acgti.tianxingleo.top/"><img src="https://img.shields.io/badge/Deploy-Cloudflare_Pages-F38020?style=flat-square&logo=cloudflare" alt="Deploy to Cloudflare Pages" /></a>
+  <a href="https://binbilibili.github.io/ACGTI/"><img src="https://img.shields.io/badge/Deploy-GitHub_Pages-222222?style=flat-square&logo=github" alt="Deploy to GitHub Pages" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-blue.svg?style=flat-square" alt="License" /></a>
   <img src="https://img.shields.io/badge/Node-%E2%89%A522-339933?style=flat-square&logo=nodedotjs" alt="Node >= 22" />
 </p>
+
+> [!IMPORTANT]
+> **本仓库是 [tianxingleo/ACGTI](https://github.com/tianxingleo/ACGTI) 的 GitHub Pages 静态化分支（二次创作）。**
+> 上游运行时依赖 Cloudflare Pages Functions + D1 + Workers AI，无法在 GitHub 上运行。本分支已把全部 `/api/*` 调用改为**浏览器本地实现**：
+>
+> - 测试结果与「真实 MBTI」反馈只写入访问者自己浏览器的 `localStorage`，**不再上报到任何服务器**；
+> - 结果页解读由**本地规则生成**（基于角色/原型文案 + 你的四维分数），零网络、零密钥；
+> - 统计页展示的是**上游快照基线 + 你自己本机的记录**，页面内已明确标注来源，不是全站实时数据；
+> - 仓库保留 `functions/`、`cron-worker/`、`migrations/`、`wrangler.jsonc` 源码以便与上游对照合并，但它们**不参与构建与部署**。
+>
+> 线上地址 <https://binbilibili.github.io/ACGTI/> · 部署方式见 [持续集成与部署](#-持续集成与部署)。
 
 <p align="center">
   <img
@@ -68,11 +80,11 @@
 - **MBTI 四维判定**：按 E/I、S/N、T/F、J/P 四个维度计分，再映射到二次元角色。
 - **8 种专属原型**：发光主角位 · 冰面观察者 · 誓约队长 · 灵巧回旋者 · 温柔修复者 · 影面策士 · 混沌火花 · 月下守护者。
 - **110+ 位角色库**：涵盖 BanG Dream!、孤独摇滚！、鸣潮、明日方舟、轻音少女、我推的孩子、Re:从零开始的异世界生活、原神、崩坏：星穹铁道、葬送的芙莉莲、Fate/stay night 等 60+ 部热门作品，持续扩充中。
-- **AI 结果解读**：基于 Cloudflare Workers AI（零密钥部署）为你的四维倾向生成个性化解读。解读请求只带倾向分桶、不带逐题答案；额度耗尽时自动隐藏，不影响其他功能。
+- **角色结果解读**：为你的四维倾向生成个性化解读。**本分支已改为浏览器本地规则生成**（基于角色/原型文案与四维分桶，零网络、零密钥）；上游原版调用 Cloudflare Workers AI，解读请求只带倾向分桶、不带逐题答案。
 - **可视化交互**：16personalities 风格的交互式倾向滑块，把你的思维倾向画出来。
 - **一键分享**：一键生成结果分享图；移动端经 Web Share API 直接进系统分享面板，桌面端导出 PNG 海报。
 - **原生页面过渡**：支持 View Transitions API 的浏览器有原生页面切换动画，不支持的浏览器不受影响（渐进增强）。
-- **轻量全栈**：测试在你的浏览器里完成计算，不需要注册，也不收集邮箱等身份信息。提交时会匿名上报最终命中的角色与原型用于全站统计与排行榜，另有约 2% 的提交会按抽样保留匿名逐题答案，用于校准题目（详见 [SECURITY.md](.github/SECURITY.md)）。
+- **纯静态、零后端**：测试在你的浏览器里完成计算，不需要注册，也不收集邮箱等身份信息。**本分支不上报任何数据**——结果与反馈只存在你自己的 `localStorage` 里，可在统计页一键清空。（上游原版会匿名上报命中角色与原型用于全站统计，详见 [SECURITY.md](.github/SECURITY.md)。）
 - **数据反馈校准**：用户可自愿提交"真实 MBTI"反馈，系统会把反馈和答题维度对比（含题目区分度与信度报表），据此调整题目权重、提升角色映射的准确度。
 
 ## 🛠️ 技术栈
@@ -91,6 +103,11 @@
 </div>
 
 ## ⚙️ 架构与原理
+
+> **本分支的运行时差异**：下面描述的是上游完整架构。本分支在 GitHub Pages 上只跑前端 SPA，
+> `functions/`、`cron-worker/`、`migrations/`、`wrangler.jsonc` 保留在仓库里便于与上游 diff/merge，
+> 但**不参与构建与部署**；原 `/api/*` 的职责改由 `src/utils/localBackend.ts`（统计与反馈）与
+> `src/utils/insight.ts`（角色解读）在浏览器内承担。
 
 <details>
 <summary><b>点击展开查看工作原理</b></summary>
@@ -158,7 +175,7 @@ src/
 ├── main.ts                # 入口文件（含 v-reveal 指令）
 └── style.css              # 全局样式
 
-functions/                 # Cloudflare Pages Functions（后端 API + 全局中间件）
+functions/                 # Cloudflare Pages Functions（上游后端 API；本分支不部署，仅保留源码）
 ├── _middleware.ts         # 全局中间件：写接口跨站校验 + 安全响应头 + 首页追踪参数清洗
 ├── api/
 │   ├── _shared.ts         # 校验 / 限流 / 恒定时间比较等共享工具
@@ -214,10 +231,14 @@ npm install
 # 启动前端开发服务器
 npm run dev
 
-# 构建
+# 构建（输出 dist/，不含 GitHub Pages 专用产物）
 npm run build
 
+# 构建 GitHub Pages 产物（= build + dist/404.html + dist/.nojekyll）
+npm run build:pages
+
 # 启动全栈本地开发（含 Cloudflare D1 + Pages Functions）
+# 这是上游的调试流程，本分支不需要（本分支没有任何后端）
 npm run dev:pages
 ```
 
@@ -238,9 +259,9 @@ npm run dev:pages
 - `wrangler pages dev ...` 必须在仓库根目录执行，不要在 `cron-worker/` 目录执行。
 - 如果需要单独调试 Cron Worker，请在 `cron-worker/` 目录运行 `npm run dev`。该模式下出现 "Scheduled Workers are not automatically triggered during local development." 是正常提示，可按日志里的 `curl /cdn-cgi/handler/scheduled` 手动触发。
 
-构建产物输出到 `dist/`（站点部署在根路径）。后端 API 基于 Cloudflare Pages Functions，使用 D1 数据库存储匿名统计数据，部署在 Cloudflare Pages 上。
+构建产物输出到 `dist/`。本分支部署在 GitHub Pages 的**项目子路径**下，因此 `base` 必须是 `/ACGTI/`（见 `vite.config.ts` 的 `DEFAULT_BASE`，可用环境变量 `VITE_BASE` 覆盖；站点域名可用 `VITE_SITE_URL` 覆盖）。`npm run build:pages` 会额外生成 `dist/404.html` 与 `dist/.nojekyll`，分别用于 SPA 深链回退和跳过 Jekyll 处理。上面那套全栈本地开发流程对应上游的 Cloudflare 架构，本分支用不到。
 
-### 后端与环境变量
+### 后端与环境变量（上游 Cloudflare 架构，本分支未使用）
 
 后端 API 基于 Cloudflare Pages Functions + D1 数据库，主要承担以下职责：
 
@@ -248,6 +269,8 @@ npm run dev:pages
 - **反馈收集**：用户可在结果页自愿提交"真实 MBTI"自评，与答题维度对比后用于后续校准题目权重。
 - **统计查询**：提供角色排行、原型分布等聚合数据接口，供统计页与结果页展示。
 - **AI 结果解读**：结果页可选的 AI 生成解读。网关密钥仅存于服务端环境变量；接口带 D1 分桶缓存、单 IP 分钟限流、`fresh` 独立子限流与全站每日生成熔断（防刷量），`fresh`/`provider` 高权限仅对携带 `ACGTI_PREWARM_TOKEN` 的预热请求开放。
+
+**本分支的对应实现**：结果上报与反馈 → `src/utils/localBackend.ts` 写 `localStorage`；统计查询 → 同文件读取上游快照基线 `src/data/statsBaseline.json` 后与本机记录合并；角色解读 → `src/utils/insight.ts` 本地规则生成。因此本分支**不需要任何环境变量或密钥**，也不存在任何服务端接口。
 
 ## 🤝 贡献
 
@@ -283,13 +306,22 @@ npm run dev:pages
 - **外部贡献**：Fork 本仓库后，向 `dev` 分支提交 Pull Request
 - **CI 校验**：仓库已配置 GitHub Actions，会在 `push` 到 `main`/`dev` 和所有 PR 上自动执行数据校验、单元测试、前后端类型检查、D1 迁移干跑与 `npm run build`
 
-线上部署由 Cloudflare Pages 负责，后端 API 通过 Cloudflare Pages Functions 运行，数据存储在 Cloudflare D1 数据库中。
+上游的线上部署由 Cloudflare Pages 负责，后端 API 通过 Cloudflare Pages Functions 运行，数据存储在 Cloudflare D1 数据库中。
+**本分支不使用 Cloudflare**：线上部署由 GitHub Pages 负责，后端职责已全部移到浏览器本地，详见下一节。
 
 ## 📦 持续集成与部署
 
-- **GitHub Actions**：在 `main`/`dev` 的 push 和 PR 上运行完整 CI 检查（数据校验、单元测试、类型检查、构建）
-- **Cloudflare Pages**：负责连接 GitHub 后的自动构建与部署，同时托管 Pages Functions 后端 API
-- **GitHub Release**：在推送 `v*` tag 时自动构建 `dist/`、打包为 zip，并创建 Release
+本分支**全部运行在 GitHub 上，不依赖 Cloudflare**：
+
+- **CI**（`.github/workflows/ci.yml`）：在 `main`/`dev` 的 push 和 PR 上运行数据校验、单元测试、类型检查与构建
+- **GitHub Pages**（`.github/workflows/deploy-pages.yml`）：push 到 `main` 时执行 `npm run build:pages` 并部署到 <https://binbilibili.github.io/ACGTI/>
+- **GitHub Release**（`.github/workflows/release.yml`）：在推送 `v*` tag 时自动构建 `dist/`、打包为 zip，并创建 Release
+
+启用 Pages 的一次性设置：仓库 `Settings → Pages → Build and deployment → Source` 选择 **GitHub Actions**。
+之后每次向 `main` 推送都会自动重新部署。若部署后页面白屏或样式丢失，优先检查 `vite.config.ts` 的 `base`
+是否与仓库名一致（本项目为 `/ACGTI/`）；换了仓库名就改这里的 `DEFAULT_BASE`。
+
+> 上游原版由 Cloudflare Pages 负责构建部署，并用 Pages Functions + D1 提供后端 API；这部分本分支未启用。
 
 发版方式示例：
 
@@ -326,7 +358,10 @@ git push origin vX.Y.Z   # 推送 tag 触发 Release 工作流
 ### 隐私与数据安全
 
 - 本工具的核心计算过程在**本地浏览器**中完成。
-- 结果页会**匿名上报最终命中角色、原型与维度倾向**到后端（Cloudflare D1），用于全站统计、题目校准与角色映射优化；另有约 2% 的提交会按抽样保留匿名逐题答案，用于校准。
+- **本分支不向任何服务器上报数据。** 结果记录与自愿提交的「真实 MBTI」反馈只写入你自己浏览器的 `localStorage`（键为 `acgti:local:submissions:v1` 与 `acgti:local:feedback:v1`），统计页提供一键清空；清除浏览器数据即彻底消失。
+- 结果页的「角色解读」在浏览器内本地生成，不发起任何网络请求，也不存在任何模型密钥。
+- 统计页的**全站基线**来自仓库内固化的上游快照 `src/data/statsBaseline.json`（含抓取时间与来源域名，页面内已标注），只有「今日 / 近 24 小时」这类增量来自你本机的记录。
+- （上游原版会把命中角色、原型与维度倾向匿名上报到 Cloudflare D1 用于全站统计，另有约 2% 抽样保留匿名逐题答案；本分支已移除该链路。）
 - 我们**不会**收集邮箱、手机号、昵称等直接身份信息，也不会存储完整 IP 或 User-Agent。
 - 用户可自愿在结果页提交"真实 MBTI"反馈，用于校准题目权重，该反馈完全匿名且可选。
 
