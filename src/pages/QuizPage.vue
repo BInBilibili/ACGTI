@@ -205,7 +205,7 @@ const scaleOptions = computed<ScaleOption[]>(() => {
 })
 
 // 随机作答：给每一道题各随机挑一个量表选项，方便快速预览结果页与角色解读
-function fillRandomAnswers() {
+async function fillRandomAnswers() {
   const options = scaleOptions.value
   if (options.length === 0 || questions.value.length === 0) return
   for (let i = 0; i < questions.value.length; i += 1) {
@@ -215,6 +215,9 @@ function fillRandomAnswers() {
   // 已全部作答，清掉「未作答」高亮与恢复提示
   pendingUnansweredIndex.value = null
   showResumeNotice.value = false
+
+  // 全部答完直接交卷，跳到结果页
+  await submitQuiz()
 }
 
 // 数字键 1-7 快捷答题（16personalities 同款体验）：
